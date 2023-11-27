@@ -20,10 +20,24 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 </script>
 <script lang="ts">
 const date = ref<Date>()
+
+export default {
+  data() {
+    return { showComponent: false }
+  },
+  methods: {
+    toggleComposer() {
+      this.showComponent = !this.showComponent
+    }
+  }
+}
 </script>
 
 <template>
-  <Card>
+  <Button class="mt-4 w-full max-w-2xl min-w-max h-14" variant="secondary" @click="toggleComposer">
+    +
+  </Button>
+  <Card class="mt-5 w-full" v-if="showComponent">
     <CardHeader>
       <Input placeholder="제목을 입력하세요" />
       <Input placeholder="설명을 입력하세요" />
@@ -65,7 +79,7 @@ const date = ref<Date>()
     </CardContent>
     <CardFooter class="flex gap-x-4">
       <Button class="w-1/2" variant="default">추가</Button>
-      <Button class="w-1/2" variant="outline">취소</Button>
+      <Button class="w-1/2" variant="outline" @click="toggleComposer">취소</Button>
     </CardFooter>
   </Card>
 </template>
