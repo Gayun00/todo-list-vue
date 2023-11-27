@@ -1,8 +1,9 @@
 import { Store } from 'vuex'
+import type { FilterCategory } from '.'
 
 declare module '@vue/runtime-core' {
   interface State {
-    category: string
+    category: FilterCategory
   }
 
   interface ComponentCustomProperties {
