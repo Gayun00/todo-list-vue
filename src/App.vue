@@ -5,9 +5,10 @@ import './index.css'
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
+  <header class="w-screen flex justify-center align-center pt-10">
+    <div class="w-full flex flex-col align-center">
+      <h1 class="mb-10 text-center font-extrabold text-4xl">TODO List</h1>
+      <nav class="flex justify-center gap-x-5">
         <RouterLink to="/list">
           <Button>목록</Button>
         </RouterLink>
@@ -17,6 +18,7 @@ import './index.css'
       </nav>
     </div>
   </header>
-
-  <RouterView />
+  <main class="mt-10 px-20 flex flex-col justify-center">
+    <RouterView />
+  </main>
 </template>
