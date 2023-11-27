@@ -7,10 +7,12 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 </script>
 
 <template>
-  <div>
+  <div class="flex gap-x-3 w-full max-w-2xl min-w-max">
     <div class="w-40">
       <Select>
         <SelectTrigger>
@@ -26,7 +28,10 @@ import {
         </SelectContent>
       </Select>
     </div>
+
+    <div class="w-full"><Input /></div>
   </div>
+  <Button class="mt-4 w-full max-w-2xl min-w-max h-14" variant="secondary"> + </Button>
 </template>
 
 <style></style>

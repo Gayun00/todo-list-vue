@@ -17,7 +17,7 @@ import './index.css'
       </nav>
     </div>
   </header>
-  <main class="mt-10 px-20 flex flex-col justify-center">
+  <main class="mt-10 px-20 flex flex-col justify-center items-center">
     <RouterView />
   </main>
 </template>
