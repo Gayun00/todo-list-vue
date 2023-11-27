@@ -55,9 +55,9 @@ const date = ref<Date>()
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
+              <SelectItem value="todo"> 진행전 </SelectItem>
               <SelectItem value="inprogress"> 진행중 </SelectItem>
               <SelectItem value="done"> 완료</SelectItem>
-              <SelectItem value="todo"> 진행전 </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
