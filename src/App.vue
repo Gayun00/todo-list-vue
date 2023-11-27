@@ -6,14 +6,14 @@ import './index.css'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <Button>Click me</Button>
+        <RouterLink to="/list">
+          <Button>목록</Button>
+        </RouterLink>
+        <RouterLink to="/dashboard">
+          <Button>통계</Button>
+        </RouterLink>
       </nav>
     </div>
   </header>
