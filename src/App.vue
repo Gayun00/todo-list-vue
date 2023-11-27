@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import { Button } from '@/components/ui/button'
 import './index.css'
 </script>
@@ -10,15 +9,15 @@ import './index.css'
       <h1 class="mb-10 text-center font-extrabold text-4xl">TODO List</h1>
       <nav class="flex justify-center gap-x-5">
         <RouterLink to="/list">
-          <Button>목록</Button>
+          <Button :variant="$route.name === 'list' ? 'default' : 'secondary'">목록</Button>
         </RouterLink>
         <RouterLink to="/dashboard">
-          <Button>통계</Button>
+          <Button :variant="$route.name === 'dashboard' ? 'default' : 'secondary'">통계</Button>
         </RouterLink>
       </nav>
     </div>
   </header>
-  <main class="mt-10 px-20 flex flex-col justify-center">
+  <main class="mt-10 px-20 flex flex-col justify-center items-center">
     <RouterView />
   </main>
 </template>
