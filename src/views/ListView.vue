@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { CATEGORY_DISPLAY_NAME } from '@/constants'
 import type { FilterCategory } from '@/types'
+import TodoItemVue from '@/components/TodoItem.vue'
 </script>
 
 <script lang="ts">
@@ -30,7 +31,8 @@ export default {
     handleSelectionChange(value: string) {
       this.$store.commit('updateItemFilter', { category: value })
     }
-  }
+  },
+  components: { TodoItemVue }
 }
 </script>
 
@@ -53,6 +55,7 @@ export default {
     <div class="w-full"><Input /></div>
   </div>
   <Button class="mt-4 w-full max-w-2xl min-w-max h-14" variant="secondary"> + </Button>
+  <TodoItemVue />
 </template>
 
 <style></style>
