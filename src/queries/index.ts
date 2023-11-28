@@ -5,7 +5,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 const todoListKeys = {
   all: ['todoList'] as const
 }
-
 export const useTodoListQuery = () => {
   return useQuery<TodoItem[]>({
     queryKey: todoListKeys.all,
@@ -23,7 +22,10 @@ export const createTodoMutation = () => {
   return useMutation({
     mutationFn: (params: TodoItem) => {
       return request.post<TodoItem, any>({
-        path: '/todo'
+        path: '/todo',
+        params,
+        isMock: true,
+        shouldAuthorize: true
       })
     },
     mutationKey: todoListKeys.all,
