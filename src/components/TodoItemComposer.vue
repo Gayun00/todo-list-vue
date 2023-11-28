@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/select'
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref, type PropType } from 'vue'
 import { cn } from '@/lib/utils'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -22,16 +22,23 @@ import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/f
 import { Input } from '@/components/ui/input'
 
 const date = ref<Date>()
-const props = defineProps({
+const { isOpen, toggleComposer, onSubmitForm, buttonText } = defineProps({
+  isOpen: {
+    type: Boolean,
+    required: true
+  },
+  toggleComposer: {
+    type: Function as PropType<() => void>,
+    required: true
+  },
   onSubmitForm: {
     type: Function,
     required: true
+  },
+  buttonText: {
+    type: String
   }
 })
-const isOpen = ref(false)
-const toggleComposer = () => {
-  isOpen.value = !isOpen.value
-}
 
 const formSchema = toTypedSchema(
   z.object({
@@ -48,13 +55,11 @@ const { handleSubmit } = useForm({
 const onSubmit = handleSubmit((values) => {
   // TODO: 카드 생성 api 호출
   if (!date?.value) return
-  props.onSubmitForm({ ...values, date: date.value?.toDateString() })
+  onSubmitForm({ ...values, date: date.value?.toDateString() })
 })
 </script>
 
 <template>
-  <Button class="mt-4 w-full h-14" variant="secondary" @click="toggleComposer"> + </Button>
-
   <form class="w-full space-y-6" @submit.prevent="onSubmit">
     <Card class="mt-5 w-full" v-if="isOpen">
       <CardHeader>
@@ -119,7 +124,7 @@ const onSubmit = handleSubmit((values) => {
         </div>
       </CardContent>
       <CardFooter class="flex gap-x-4">
-        <Button type="submit" class="w-1/2" variant="default">추가</Button>
+        <Button type="submit" class="w-1/2" variant="default">{{ buttonText || '추가' }}</Button>
         <Button class="w-1/2" variant="outline" @click="toggleComposer">취소</Button>
       </CardFooter>
     </Card>

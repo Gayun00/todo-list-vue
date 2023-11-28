@@ -26,6 +26,7 @@ const toggleComposer = () => {
   isOpen.value = !isOpen.value
 }
 
+// TODO: editTodo 작성 후 교체
 const onCreateTodo = (values: TodoItem) => {
   createTodo.mutate(values)
 }
@@ -46,5 +47,11 @@ const onCreateTodo = (values: TodoItem) => {
     <CardFooter class="flex gap-x-4"> </CardFooter>
   </Card>
 
-  <TodoItemComposerVue v-if="isOpen" :onSubmitForm="onCreateTodo" />
+  <TodoItemComposerVue
+    v-if="isOpen"
+    :isOpen="isOpen"
+    :toggleComposer="toggleComposer"
+    :onSubmitForm="onCreateTodo"
+    :buttonText="'수정'"
+  />
 </template>

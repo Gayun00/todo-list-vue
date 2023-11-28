@@ -17,6 +17,7 @@ import { useStore } from 'vuex'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { mockTodoList } from '@/mocks/data'
 import { createTodoMutation } from '@/queries'
+import { Button } from '@/components/ui/button'
 
 const store = useStore()
 const selectedValue = ref(store.state.category)
@@ -29,6 +30,11 @@ watch(selectedValue, (newVal) => {
 
 const onCreateTodo = (values: TodoItem) => {
   createTodo.mutate(values)
+}
+
+const isOpen = ref(false)
+const toggleComposer = () => {
+  isOpen.value = !isOpen.value
 }
 </script>
 
@@ -51,7 +57,13 @@ const onCreateTodo = (values: TodoItem) => {
       </div>
       <div class="w-full"><Input /></div>
     </div>
-    <TodoItemComposerVue :onSubmitForm="onCreateTodo" />
+    <Button class="mt-4 w-full h-14" variant="secondary" @click="toggleComposer"> + </Button>
+
+    <TodoItemComposerVue
+      :isOpen="isOpen"
+      :toggleComposer="toggleComposer"
+      :onSubmitForm="onCreateTodo"
+    />
 
     <ScrollArea class="h-[630px] w-full rounded-md border p-4">
       <!-- TODO: key값 교체 -->
