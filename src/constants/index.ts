@@ -6,3 +6,11 @@ export const CATEGORY_DISPLAY_NAME: Record<FilterCategory, string> = {
   date: '날짜',
   status: '상태'
 }
+
+export const STORAGE_KEY = {
+  TOKEN: 'token'
+}
+
+export const URL = {
+  API_SERVER: 'http://localhost:5173'
+}
