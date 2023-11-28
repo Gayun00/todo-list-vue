@@ -4,7 +4,7 @@ import './index.css'
 </script>
 
 <template>
-  <header class="w-screen flex justify-center align-center pt-10">
+  <header class="w-full flex justify-center align-center pt-10">
     <div class="w-full flex flex-col align-center">
       <h1 class="mb-10 text-center font-extrabold text-4xl">TODO List</h1>
       <nav class="flex justify-center gap-x-5">

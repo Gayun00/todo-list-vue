@@ -14,25 +14,13 @@ import TodoItemComposerVue from '@/components/TodoItemComposer.vue'
 import TodoItemVue from '@/components/TodoItem.vue'
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { mockTodoList } from '@/mocks/data'
 
 const store = useStore()
 const selectedValue = ref(store.state.category)
 const selectItems = ref(['description', 'status', 'date'] as FilterCategory[])
 // TODO: useCardsQuery의 data 값이 잘못 리턴되는 이슈 해결 후 교체 예정
-const mockTodoList = [
-  {
-    title: 'card1',
-    description: 'card 1 description',
-    date: 'date',
-    status: 'inprogress'
-  },
-  {
-    title: 'card2',
-    description: 'card 2 description',
-    date: 'date',
-    status: 'inprogress'
-  }
-]
 
 watch(selectedValue, (newVal) => {
   store.commit('updateItemFilter', { category: newVal })
@@ -60,7 +48,8 @@ watch(selectedValue, (newVal) => {
     </div>
     <TodoItemComposerVue />
 
-    <div v-if="Array.isArray(mockTodoList)">
+    <ScrollArea class="h-[630px] w-full rounded-md border p-4">
+      <!-- TODO: key값 교체 -->
       <div v-for="item in mockTodoList" :key="item.title">
         <TodoItemVue
           :title="item.title"
@@ -69,7 +58,7 @@ watch(selectedValue, (newVal) => {
           :date="item.date"
         />
       </div>
-    </div>
+    </ScrollArea>
   </div>
 </template>
 
