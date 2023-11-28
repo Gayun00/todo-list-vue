@@ -22,7 +22,7 @@ import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/f
 import { Input } from '@/components/ui/input'
 
 const date = ref<Date>()
-const { isOpen, toggleComposer, onSubmitForm, buttonText } = defineProps({
+const { isOpen, toggleComposer, onSubmitForm, buttonText, data } = defineProps({
   isOpen: {
     type: Boolean,
     required: true
@@ -37,6 +37,9 @@ const { isOpen, toggleComposer, onSubmitForm, buttonText } = defineProps({
   },
   buttonText: {
     type: String
+  },
+  data: {
+    type: Object
   }
 })
 
@@ -49,7 +52,13 @@ const formSchema = toTypedSchema(
 )
 
 const { handleSubmit } = useForm({
-  validationSchema: formSchema
+  validationSchema: formSchema,
+  initialValues: {
+    title: data?.title,
+    date: data?.date,
+    status: data?.status,
+    description: data?.description
+  }
 })
 
 const onSubmit = handleSubmit((values) => {
@@ -66,7 +75,11 @@ const onSubmit = handleSubmit((values) => {
         <FormField v-slot="{ componentField }" name="title">
           <FormItem>
             <FormControl>
-              <Input placeholder="제목을 입력하세요" v-bind="componentField" />
+              <Input
+                placeholder="제목을 입력하세요"
+                v-bind="componentField"
+                :default-value="data?.title"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -74,7 +87,11 @@ const onSubmit = handleSubmit((values) => {
         <FormField v-slot="{ componentField }" name="description">
           <FormItem>
             <FormControl>
-              <Input placeholder="설명을 입력하세요" v-bind="componentField" />
+              <Input
+                placeholder="설명을 입력하세요"
+                v-bind="componentField"
+                :default-value="data?.description"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -105,7 +122,7 @@ const onSubmit = handleSubmit((values) => {
           <FormField v-slot="{ componentField }" name="status">
             <FormItem>
               <FormControl>
-                <Select v-bind="componentField">
+                <Select v-bind="componentField" :default-value="data?.status">
                   <SelectTrigger>
                     <SelectValue placeholder="선택" />
                   </SelectTrigger>
