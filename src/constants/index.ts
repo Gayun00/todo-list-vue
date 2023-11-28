@@ -8,7 +8,8 @@ export const CATEGORY_DISPLAY_NAME: Record<FilterCategory, string> = {
 }
 
 export const STORAGE_KEY = {
-  TOKEN: 'token'
+  TOKEN: 'token',
+  TODO_LIST: 'todo_list'
 }
 
 export const URL = {
