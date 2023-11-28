@@ -20,6 +20,9 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { createTodoMutation } from '@/queries'
+
+const createTodo = createTodoMutation()
 
 const date = ref<Date>()
 
@@ -42,7 +45,8 @@ const { handleSubmit } = useForm({
 
 const onSubmit = handleSubmit((values) => {
   // TODO: 카드 생성 api 호출
-  console.log({ ...values, date: date.value })
+  if (!date?.value) return
+  createTodo.mutate({ ...values, date: date.value?.toDateString() })
 })
 </script>
 <script lang="ts"></script>
