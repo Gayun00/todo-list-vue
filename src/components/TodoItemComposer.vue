@@ -18,14 +18,7 @@ import { cn } from '@/lib/utils'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 const date = ref<Date>()
@@ -58,26 +51,22 @@ const onSubmit = handleSubmit((values) => {
     +
   </Button>
 
-  <form class="w-2/3 space-y-6" @submit.prevent="onSubmit">
+  <form class="w-full space-y-6" @submit.prevent="onSubmit">
     <Card class="mt-5 w-full" v-if="showComponent">
-      <FormField v-slot="{ componentField }" name="title">
-        <FormItem>
-          <FormLabel>Title</FormLabel>
-          <FormControl>
-            <Input placeholder="제목을 입력하세요" v-bind="componentField" />
-          </FormControl>
-          <FormDescription> This is your public display name. </FormDescription>
-          <FormMessage />
-        </FormItem>
-      </FormField>
       <CardHeader>
-        <FormField v-slot="{ componentField }" name="description">
+        <FormField v-slot="{ componentField }" name="title">
           <FormItem>
-            <FormLabel>Description</FormLabel>
             <FormControl>
               <Input placeholder="제목을 입력하세요" v-bind="componentField" />
             </FormControl>
-            <FormDescription> This is your public display name. </FormDescription>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="description">
+          <FormItem>
+            <FormControl>
+              <Input placeholder="설명을 입력하세요" v-bind="componentField" />
+            </FormControl>
             <FormMessage />
           </FormItem>
         </FormField>
@@ -103,28 +92,27 @@ const onSubmit = handleSubmit((values) => {
               <Calendar v-model="date" />
             </PopoverContent>
           </Popover>
+
+          <FormField v-slot="{ componentField }" name="status">
+            <FormItem>
+              <FormControl>
+                <Select v-bind="componentField">
+                  <SelectTrigger>
+                    <SelectValue placeholder="선택" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="todo"> 진행전 </SelectItem>
+                      <SelectItem value="inprogress"> 진행중 </SelectItem>
+                      <SelectItem value="done"> 완료</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
         </div>
-        <FormField v-slot="{ componentField }" name="status">
-          <FormItem>
-            <FormLabel>Description</FormLabel>
-            <FormControl>
-              <Select v-bind="componentField">
-                <SelectTrigger>
-                  <SelectValue placeholder="선택" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="todo"> 진행전 </SelectItem>
-                    <SelectItem value="inprogress"> 진행중 </SelectItem>
-                    <SelectItem value="done"> 완료</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormDescription> This is your public display name. </FormDescription>
-            <FormMessage />
-          </FormItem>
-        </FormField>
       </CardContent>
       <CardFooter class="flex gap-x-4">
         <Button type="submit" class="w-1/2" variant="default">추가</Button>
