@@ -20,15 +20,17 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { createTodoMutation } from '@/queries'
-
-const createTodo = createTodoMutation()
 
 const date = ref<Date>()
-
-const showComponent = ref(false)
+const props = defineProps({
+  onSubmitForm: {
+    type: Function,
+    required: true
+  }
+})
+const isOpen = ref(false)
 const toggleComposer = () => {
-  showComponent.value = !showComponent.value
+  isOpen.value = !isOpen.value
 }
 
 const formSchema = toTypedSchema(
@@ -46,16 +48,15 @@ const { handleSubmit } = useForm({
 const onSubmit = handleSubmit((values) => {
   // TODO: 카드 생성 api 호출
   if (!date?.value) return
-  createTodo.mutate({ ...values, date: date.value?.toDateString() })
+  props.onSubmitForm({ ...values, date: date.value?.toDateString() })
 })
 </script>
-<script lang="ts"></script>
 
 <template>
   <Button class="mt-4 w-full h-14" variant="secondary" @click="toggleComposer"> + </Button>
 
   <form class="w-full space-y-6" @submit.prevent="onSubmit">
-    <Card class="mt-5 w-full" v-if="showComponent">
+    <Card class="mt-5 w-full" v-if="isOpen">
       <CardHeader>
         <FormField v-slot="{ componentField }" name="title">
           <FormItem>

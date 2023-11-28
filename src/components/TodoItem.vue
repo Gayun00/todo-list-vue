@@ -7,20 +7,32 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-</script>
-<script lang="ts">
-export default {
-  props: {
-    title: String,
-    description: String,
-    status: String,
-    date: String
-  }
+import { ref } from 'vue'
+import TodoItemComposerVue from '@/components/TodoItemComposer.vue'
+import { createTodoMutation } from '@/queries'
+import type { TodoItem } from '@/types'
+
+const { title, date, description, status } = defineProps({
+  title: String,
+  description: String,
+  status: String,
+  date: String
+})
+const createTodo = createTodoMutation()
+
+const isOpen = ref(false)
+const toggleComposer = () => {
+  console.log('click')
+  isOpen.value = !isOpen.value
+}
+
+const onCreateTodo = (values: TodoItem) => {
+  createTodo.mutate(values)
 }
 </script>
 
 <template>
-  <Card class="mt-5 w-full">
+  <Card v-if="!isOpen" class="mt-5 w-full" @click="toggleComposer">
     <CardHeader>
       <div class="flex justify-between">
         <CardTitle>{{ title }}</CardTitle>
@@ -33,4 +45,6 @@ export default {
     </CardContent>
     <CardFooter class="flex gap-x-4"> </CardFooter>
   </Card>
+
+  <TodoItemComposerVue v-if="isOpen" :onSubmitForm="onCreateTodo" />
 </template>
