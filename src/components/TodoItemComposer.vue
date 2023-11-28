@@ -13,23 +13,35 @@ import {
 } from '@/components/ui/select'
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref, type PropType } from 'vue'
 import { cn } from '@/lib/utils'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { createTodoMutation } from '@/queries'
-
-const createTodo = createTodoMutation()
 
 const date = ref<Date>()
-
-const showComponent = ref(false)
-const toggleComposer = () => {
-  showComponent.value = !showComponent.value
-}
+const { isOpen, toggleComposer, onSubmitForm, buttonText, data } = defineProps({
+  isOpen: {
+    type: Boolean,
+    required: true
+  },
+  toggleComposer: {
+    type: Function as PropType<() => void>,
+    required: true
+  },
+  onSubmitForm: {
+    type: Function,
+    required: true
+  },
+  buttonText: {
+    type: String
+  },
+  data: {
+    type: Object
+  }
+})
 
 const formSchema = toTypedSchema(
   z.object({
@@ -40,27 +52,34 @@ const formSchema = toTypedSchema(
 )
 
 const { handleSubmit } = useForm({
-  validationSchema: formSchema
+  validationSchema: formSchema,
+  initialValues: {
+    title: data?.title,
+    date: data?.date,
+    status: data?.status,
+    description: data?.description
+  }
 })
 
 const onSubmit = handleSubmit((values) => {
   // TODO: 카드 생성 api 호출
   if (!date?.value) return
-  createTodo.mutate({ ...values, date: date.value?.toDateString() })
+  onSubmitForm({ ...values, date: date.value?.toDateString() })
 })
 </script>
-<script lang="ts"></script>
 
 <template>
-  <Button class="mt-4 w-full h-14" variant="secondary" @click="toggleComposer"> + </Button>
-
   <form class="w-full space-y-6" @submit.prevent="onSubmit">
-    <Card class="mt-5 w-full" v-if="showComponent">
+    <Card class="mt-5 w-full" v-if="isOpen">
       <CardHeader>
         <FormField v-slot="{ componentField }" name="title">
           <FormItem>
             <FormControl>
-              <Input placeholder="제목을 입력하세요" v-bind="componentField" />
+              <Input
+                placeholder="제목을 입력하세요"
+                v-bind="componentField"
+                :default-value="data?.title"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -68,7 +87,11 @@ const onSubmit = handleSubmit((values) => {
         <FormField v-slot="{ componentField }" name="description">
           <FormItem>
             <FormControl>
-              <Input placeholder="설명을 입력하세요" v-bind="componentField" />
+              <Input
+                placeholder="설명을 입력하세요"
+                v-bind="componentField"
+                :default-value="data?.description"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -99,7 +122,7 @@ const onSubmit = handleSubmit((values) => {
           <FormField v-slot="{ componentField }" name="status">
             <FormItem>
               <FormControl>
-                <Select v-bind="componentField">
+                <Select v-bind="componentField" :default-value="data?.status">
                   <SelectTrigger>
                     <SelectValue placeholder="선택" />
                   </SelectTrigger>
@@ -118,7 +141,7 @@ const onSubmit = handleSubmit((values) => {
         </div>
       </CardContent>
       <CardFooter class="flex gap-x-4">
-        <Button type="submit" class="w-1/2" variant="default">추가</Button>
+        <Button type="submit" class="w-1/2" variant="default">{{ buttonText || '추가' }}</Button>
         <Button class="w-1/2" variant="outline" @click="toggleComposer">취소</Button>
       </CardFooter>
     </Card>
