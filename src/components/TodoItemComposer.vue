@@ -41,15 +41,14 @@ const { handleSubmit } = useForm({
 })
 
 const onSubmit = handleSubmit((values) => {
+  // TODO: 카드 생성 api 호출
   console.log({ ...values, date: date.value })
 })
 </script>
 <script lang="ts"></script>
 
 <template>
-  <Button class="mt-4 w-full max-w-2xl min-w-max h-14" variant="secondary" @click="toggleComposer">
-    +
-  </Button>
+  <Button class="mt-4 w-full h-14" variant="secondary" @click="toggleComposer"> + </Button>
 
   <form class="w-full space-y-6" @submit.prevent="onSubmit">
     <Card class="mt-5 w-full" v-if="showComponent">
