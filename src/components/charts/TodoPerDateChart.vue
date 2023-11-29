@@ -4,7 +4,7 @@ import type { TodoItem } from '@/types'
 import ApexCharts from 'apexcharts'
 import { onMounted } from 'vue'
 import dayjs from 'dayjs'
-
+// TODO: api 호출로 변경
 const genrerateRecentDates = () => {
   const dates: Record<string, number> = {}
   const today = dayjs()
@@ -20,13 +20,14 @@ const countTodoPerDate = (todoList: TodoItem[]) => {
   const recentDates = genrerateRecentDates()
   for (const todo of todoList) {
     const todoDate = dayjs(todo?.date).format('YYYY-MM-DD')
-    recentDates[todoDate]++
+    if (recentDates[todoDate] >= 0) {
+      recentDates[todoDate]++
+    }
   }
   return recentDates
 }
 
 const dates = countTodoPerDate(mockTodoList)
-
 const options = {
   series: [
     {

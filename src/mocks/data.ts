@@ -52,7 +52,7 @@ export const mockTodoList: TodoItem[] = [
   {
     title: 'card2',
     description: 'card 2 description',
-    date: '2023-11-24',
+    date: '2023-11-28',
     status: 'inprogress'
   }
 ]

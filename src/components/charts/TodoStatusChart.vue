@@ -4,6 +4,8 @@ import type { TodoItem } from '@/types'
 import * as d3 from 'd3'
 import { onMounted } from 'vue'
 
+// TODO: api 호출로 변경
+
 const pie = d3.pie()
 
 const countTodoPerStatus = (todoList: TodoItem[]) => {
