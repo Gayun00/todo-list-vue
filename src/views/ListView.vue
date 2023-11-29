@@ -15,8 +15,7 @@ import TodoItemVue from '@/components/TodoItem.vue'
 import { ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { mockTodoList } from '@/mocks/data'
-import { createTodoMutation } from '@/queries'
+import { createTodoMutation, useTodoListQuery } from '@/queries'
 import { Button } from '@/components/ui/button'
 
 const store = useStore()
@@ -36,6 +35,8 @@ const isOpen = ref(false)
 const toggleComposer = () => {
   isOpen.value = !isOpen.value
 }
+
+const { data } = useTodoListQuery()
 </script>
 
 <template>
@@ -66,18 +67,18 @@ const toggleComposer = () => {
     />
 
     <ScrollArea class="h-[630px] w-full rounded-md border p-4">
-      <!-- TODO: key값 교체 -->
-      <!-- TODO: useCardsQuery의 data 값이 잘못 리턴되는 이슈 해결 후 mock data 교체 예정 -->
-
-      <TodoItemVue
-        v-for="item in mockTodoList"
-        :key="item.title"
-        :title="item.title"
-        :status="item.status"
-        :description="item.description"
-        :date="item.date"
-        :id="item.id"
-      />
+      <div v-for="(page, index) in data?.pages" :key="index">
+        <!-- TODO: infinite scroll 추가 -->
+        <TodoItemVue
+          v-for="item in page.pageData"
+          :key="item.id"
+          :title="item.title"
+          :status="item.status"
+          :description="item.description"
+          :date="item.date"
+          :id="item.id"
+        />
+      </div>
     </ScrollArea>
   </div>
 </template>

@@ -10,7 +10,8 @@
       "@/components": ["./src/components"],
       "@/constants": ["./src/constants"],
       "@/types": ["./src/types"],
-      "@/queries": ["./src/queries"]
+      "@/queries": ["./src/queries"],
+      "@/api": ["./src/api"]
     },
     "moduleResolution": "node",
     "esModuleInterop": true

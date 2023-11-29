@@ -25,10 +25,8 @@ const isOpen = ref(false)
 const toggleComposer = () => {
   isOpen.value = !isOpen.value
 }
-console.log(props.title, props.id)
 // TODO: editTodo 작성 후 교체
 const onEditTodo = (values: TodoItem) => {
-  console.log('sdf', props.id)
   if (!props.id) return
   editTodo.mutate({ params: values, id: props.id })
   toggleComposer()
