@@ -55,6 +55,7 @@ const { handleSubmit } = useForm({
   validationSchema: formSchema,
   initialValues: {
     title: data?.title,
+    // TODO: date type 수정
     date: data?.date,
     status: data?.status,
     description: data?.description
@@ -65,6 +66,7 @@ const onSubmit = handleSubmit((values) => {
   // TODO: 카드 생성 api 호출
   if (!date?.value) return
   onSubmitForm({ ...values, date: date.value?.toDateString() })
+  toggleComposer()
 })
 </script>
 

@@ -1,6 +1,5 @@
-import { getTodo } from '@/api'
+import { createTodo, editTodo, getTodo } from '@/api'
 import type { TodoItem } from '@/types'
-import { request } from '@/utils/httpRequest'
 import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
 
 const todoListKeys = {
@@ -12,21 +11,15 @@ export const useTodoListQuery = () => {
     queryFn: getTodo,
     getNextPageParam: (lastPage) => {
       return lastPage.cursor
-    }
+    },
+    initialPageParam: 1
   })
 }
 
 export const createTodoMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (params: TodoItem) => {
-      return request.post<TodoItem, any>({
-        path: '/todo',
-        params,
-        isMock: true,
-        shouldAuthorize: true
-      })
-    },
+    mutationFn: (params: TodoItem) => createTodo(params),
     mutationKey: todoListKeys.all,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: todoListKeys.all })
@@ -37,14 +30,7 @@ export const createTodoMutation = () => {
 export const editTodoMutation = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ params, id }: { params: TodoItem; id: string }) => {
-      return request.put<TodoItem, any>({
-        path: `/todo/${id}`,
-        params,
-        isMock: true,
-        shouldAuthorize: true
-      })
-    },
+    mutationFn: ({ params, id }: { params: TodoItem; id: string }) => editTodo(params, id),
     mutationKey: todoListKeys.all,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: todoListKeys.all })
