@@ -69,14 +69,14 @@ const toggleComposer = () => {
       <!-- TODO: key값 교체 -->
       <!-- TODO: useCardsQuery의 data 값이 잘못 리턴되는 이슈 해결 후 mock data 교체 예정 -->
 
-      <div v-for="item in mockTodoList" :key="item.title">
-        <TodoItemVue
-          :title="item.title"
-          :status="item.status"
-          :description="item.description"
-          :date="item.date"
-        />
-      </div>
+      <TodoItemVue
+        v-for="item in mockTodoList"
+        :key="item.title"
+        :title="item.title"
+        :status="item.status"
+        :description="item.description"
+        :date="item.date"
+      />
     </ScrollArea>
   </div>
 </template>

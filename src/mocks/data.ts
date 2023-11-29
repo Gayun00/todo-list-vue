@@ -11,19 +11,19 @@ export const mockTodoList: TodoItem[] = [
     title: 'card2',
     description: 'card 2 description',
     date: '2023-11-26',
-    status: 'inprogress'
+    status: 'done'
   },
   {
     title: 'card2',
     description: 'card 2 description',
     date: '2023-11-22',
-    status: 'inprogress'
+    status: 'done'
   },
   {
     title: 'card2',
     description: 'card 2 description',
     date: '2023-11-24',
-    status: 'inprogress'
+    status: 'todo'
   },
   {
     title: 'card2',
@@ -35,7 +35,7 @@ export const mockTodoList: TodoItem[] = [
     title: 'card2',
     description: 'card 2 description',
     date: '2023-11-28',
-    status: 'inprogress'
+    status: 'todo'
   },
   {
     title: 'card2',
@@ -47,12 +47,12 @@ export const mockTodoList: TodoItem[] = [
     title: 'card2',
     description: 'card 2 description',
     date: '2023-11-24',
-    status: 'inprogress'
+    status: 'done'
   },
   {
     title: 'card2',
     description: 'card 2 description',
-    date: '2023-11-24',
+    date: '2023-11-28',
     status: 'inprogress'
   }
 ]
