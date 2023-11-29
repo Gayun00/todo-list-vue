@@ -4,6 +4,8 @@ import TodoStatusChartVue from '@/components/charts/TodoStatusChart.vue'
 </script>
 
 <template>
-  <TodoPerDateChartVue />
-  <TodoStatusChartVue />
+  <main class="space-y-20">
+    <TodoPerDateChartVue />
+    <TodoStatusChartVue />
+  </main>
 </template>

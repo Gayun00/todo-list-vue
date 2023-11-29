@@ -1,89 +1,54 @@
-<template>
-  <div ref="chart"></div>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-</template>
-
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import * as d3 from 'd3'
 import { mockTodoList } from '@/mocks/data'
+import type { TodoItem } from '@/types'
+import * as d3 from 'd3'
+import { onMounted } from 'vue'
 
-const chart = ref(null)
-const todoData = mockTodoList
+const pie = d3.pie()
 
-const aggregateData = () => {
-  const countByStatus: Record<string, number> = {}
-  todoData.forEach((item) => {
-    countByStatus[item.status] = (countByStatus[item.status] || 0) + 1
-  })
-  return Object.values(countByStatus) // 각 상태의 개수만을 포함하는 배열 반환
+const countTodoPerStatus = (todoList: TodoItem[]) => {
+  const counts: Record<string, number> = {
+    todo: 0,
+    inprogress: 0,
+    done: 0
+  }
+  for (const todo of todoList) {
+    counts[todo.status]++
+  }
+  return counts
 }
+const test = countTodoPerStatus(mockTodoList)
+const data = Object.values(test)
+const colors = ['#e06666', '#ffd966', '#93c47d']
 
 onMounted(() => {
-  var dataset = [
-    { name: 'A', value: 5 },
-    { name: 'B', value: 6 },
-    { name: 'C', value: 8 },
-    { name: 'D', value: 1 },
-    { name: 'E', value: 2 },
-    { name: 'F', value: 6 },
-    { name: 'G', value: 8 },
-    { name: 'H', value: 6 },
-    { name: 'I', value: 10 },
-    { name: 'J', value: 9 }
-  ]
+  const svg = d3.select('#pie-chart')
+  const width = 200
+  const height = 200
+  const radius = Math.min(width, height) / 2
+  const g = svg.append('g').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
+  const color = d3.scaleOrdinal(colors)
 
-  var width = 400 // 그래프 넓이
-  var height = 300
-  var radius = Math.min(width, height) / 2 - 10
+  const arc = d3.arc().innerRadius(0).outerRadius(radius)
 
-  // 2. SVG 영역 설정
-  var svg = d3.select('body').append('svg').attr('width', width).attr('height', height)
+  const arcs = g.selectAll('.arc').data(pie(data)).enter().append('g').attr('class', 'arc')
 
-  var g = svg.append('g').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
-
-  // 3. 컬러 설정
-  var color = d3.scaleOrdinal().range(['#DC3912', '#3366CC', '#109618', '#FF9900', '#990099'])
-
-  // 4. pie 차트 dateset에 대한 함수 설정
-  var pie = d3
-    .pie()
-    .value(function (d) {
-      return d.value
-    })
-    .sort(null)
-
-  // 5. pie 차트 SVG 요소 설정
-  var pieGroup = g.selectAll('.pie').data(pie(dataset)).enter().append('g').attr('class', 'pie')
-
-  arc = d3.arc().outerRadius(radius).innerRadius(0)
-
-  pieGroup
+  arcs
     .append('path')
-    .attr('d', arc)
-    .attr('fill', function (d) {
-      return color(d.index)
-    })
-    .attr('opacity', 0.75)
-    .attr('stroke', 'white')
-
-  // 6. pie 차트 텍스트 SVG 요소 설정
-  var text = d3
-    .arc()
-    .outerRadius(radius - 30)
-    .innerRadius(radius - 30)
-
-  pieGroup
-    .append('text')
-    .attr('fill', 'black')
-    .attr('transform', function (d) {
-      return 'translate(' + text.centroid(d) + ')'
-    })
-    .attr('dy', '5px')
-    .attr('font', '10px')
-    .attr('text-anchor', 'middle')
-    .text(function (d) {
-      return d.data.name
-    })
+    .attr('fill', (d, i) => color(i.toString()))
+    .attr('d', (d: any) => arc(d))
 })
 </script>
+<template>
+  <div class="flex items-center gap-x-40">
+    <svg id="pie-chart" width="200" height="200"></svg>
+    <div class="flex flex-col">
+      <div class="flex items-center" v-for="(item, index) in Object.entries(test)" :key="item[0]">
+        <svg width="20" height="20">
+          <circle cx="10" cy="10" r="7" :fill="colors[index]"></circle>
+        </svg>
+        <p class="ml-2 pb-1">{{ item[0] }} {{ item[1] }}개</p>
+      </div>
+    </div>
+  </div>
+</template>
