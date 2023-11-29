@@ -76,6 +76,7 @@ const toggleComposer = () => {
         :status="item.status"
         :description="item.description"
         :date="item.date"
+        :id="item.id"
       />
     </ScrollArea>
   </div>

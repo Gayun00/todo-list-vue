@@ -34,3 +34,21 @@ export const createTodoMutation = () => {
     }
   })
 }
+
+export const editTodoMutation = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ params, id }: { params: TodoItem; id: string }) => {
+      return request.put<TodoItem, any>({
+        path: `/todo/${id}`,
+        params,
+        isMock: true,
+        shouldAuthorize: true
+      })
+    },
+    mutationKey: todoListKeys.all,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: todoListKeys.all })
+    }
+  })
+}

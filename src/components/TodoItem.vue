@@ -9,25 +9,28 @@ import {
 } from '@/components/ui/card'
 import { ref } from 'vue'
 import TodoItemComposerVue from '@/components/TodoItemComposer.vue'
-import { createTodoMutation } from '@/queries'
+import { editTodoMutation } from '@/queries'
 import type { TodoItem } from '@/types'
 
 const props = defineProps({
+  id: String,
   title: String,
   description: String,
   status: String,
   date: String
 })
-const createTodo = createTodoMutation()
+const editTodo = editTodoMutation()
 
 const isOpen = ref(false)
 const toggleComposer = () => {
   isOpen.value = !isOpen.value
 }
-
+console.log(props.title, props.id)
 // TODO: editTodo 작성 후 교체
-const onCreateTodo = (values: TodoItem) => {
-  createTodo.mutate(values)
+const onEditTodo = (values: TodoItem) => {
+  console.log('sdf', props.id)
+  if (!props.id) return
+  editTodo.mutate({ params: values, id: props.id })
   toggleComposer()
 }
 </script>
@@ -51,7 +54,7 @@ const onCreateTodo = (values: TodoItem) => {
     v-if="isOpen"
     :isOpen="isOpen"
     :toggleComposer="toggleComposer"
-    :onSubmitForm="onCreateTodo"
+    :onSubmitForm="onEditTodo"
     :buttonText="'수정'"
     :data="props"
   />
